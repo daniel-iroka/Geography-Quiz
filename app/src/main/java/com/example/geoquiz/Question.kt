@@ -10,5 +10,6 @@ data class Question(@StringRes val textResId:Int, val answer:Boolean) {
 }
 
 data class QuestionNumber(@StringRes val textQuestion:Int) {
-    // no code
+
+    // no code needed
 }
