@@ -11,15 +11,36 @@ private const val TAG = "QuizViewModel"
 // So ViewModel simply "saves" or "takes" the state of a lifecycle into account
 class QuizViewModel : ViewModel() {
 
-    init {
-        Log.d(TAG, "ViewModel instance created")
-    }
 
-    // The onCleared function is called when the ViewModel is about to be destroyed so that you can observe
-    // the current state of the activity(lifecycle)
-    override fun onCleared() {
-        super.onCleared()
-        Log.d(TAG, "ViewModel instance about to be destroyed")
-    }
+    // This is a list holding all the questions being passed to the 'Question Class' as a StringResourceId and a Boolean
+    private val questionBank = listOf(
+        Question(R.string.question_australia, true),  // these are the actual answers to the question
+        Question(R.string.question_oceans, true),
+        Question(R.string.question_mideast, false),
+        Question(R.string.question_africa, false),
+        Question(R.string.question_americas, true),
+        Question(R.string.question_asia, true),
+        Question(R.string.question_continent, true),
+        Question(R.string.question_amazon, false)
+    )
+    var currentIndex = 0
 
+
+    // Computed properties to return the Answer and text for the currentQuestion
+    val currentQuestionAnswer :Boolean
+        get() = questionBank[currentIndex].answer
+    val currentQuestionText : Int
+        get() = questionBank[currentIndex].textResId // .textResId parameter specifies we want only the StringResource(The Questions)
+
+
+    // function to move to the next question
+    fun moveToNext() {
+
+        // This is a recursive logic that adds the currentIndex + 1, dividing it with Q.size and returning the remainder
+        // till it gets to 8 % 8 =  (0 + 1) which will recurse the process
+        currentIndex = (currentIndex + 1) % questionBank.size
+    }
 }
+
+/** A ViewModel survives configuration changes and is destroyed only when its associated activity is
+finished. **/

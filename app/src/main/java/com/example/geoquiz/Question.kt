@@ -6,5 +6,5 @@ import androidx.annotation.StringRes // StringRes - parameter is a string resour
 // This class is the Model view for collecting the bank of questions
 data class Question(@StringRes val textResId:Int, val answer:Boolean) {
 
-    
+    // no code needed here
 }

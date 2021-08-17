@@ -8,6 +8,8 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 
 private const val TAG = "MainActivity"  // TAG constant refers to the source of the log message(The Activity class)
 
@@ -17,27 +19,21 @@ class MainActivity : AppCompatActivity() {
     private lateinit var nextButton :Button
     private lateinit var questionTextView :TextView
 
-    // todo continue from creating a landscape layout - Device Configuration...
 
-    // This is a list holding all the questions being passed to the 'Question Class' as a StringResourceId and a Boolean
-    private val questionBank = listOf(
-        Question(R.string.question_australia, true),  // these are the actual answers to the question
-        Question(R.string.question_oceans, true),
-        Question(R.string.question_mideast, false),
-        Question(R.string.question_africa, false),
-        Question(R.string.question_americas, true),
-        Question(R.string.question_asia, true),
-        Question(R.string.question_continent, true),
-        Question(R.string.question_amazon, false)
-    )
-    private var currentIndex = 0
+    // We use by lazy here because we want to use 'val' and we only want the QuizViewModel to occur
+    // when we access it, which is a safe process for accessing ViewModel before the activity is created
+    private val quizViewModel: QuizViewModel by lazy {
 
-
+        // ViewModel provider creates and returns a new instance of the QuizViewModel Activity
+        // When the devices rotates, it returns that already created instance of creating a new one
+        ViewModelProviders.of(this).get(QuizViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate(Bundle?) called")  // log message shown based on the current state of the Activity
         setContentView(R.layout.activity_main) // this is an auto-generated resource "id" for the layout
+
 
         trueButton = findViewById(R.id.true_button)  // This are all properties identifying the views by ids in the MainActivity.kt
         falseButton = findViewById(R.id.false_button)
@@ -57,9 +53,7 @@ class MainActivity : AppCompatActivity() {
         /** NEXT BUTTON **/
         nextButton.setOnClickListener {
 
-            // This is a recursive logic that adds the currentIndex + 1, dividing it with Q.size and returning the remainder
-            // till it gets to 8 % 8 =  (0 + 1) which will recurse the process
-            currentIndex = (currentIndex + 1) % questionBank.size
+            quizViewModel.moveToNext()
             showAllQuestions()
         }
         showAllQuestions() // This is added here to so that the first Question will initially appear in the questionsTextView
@@ -93,7 +87,7 @@ class MainActivity : AppCompatActivity() {
 
     // This function will hold all the questionText
     private fun showAllQuestions() {
-        val questionTextResId = questionBank[currentIndex].textResId // .textResId parameter specifies we want only the StringResource(The Questions)
+        val questionTextResId = quizViewModel.currentQuestionText
         questionTextView.setText(questionTextResId)
 
     }
@@ -101,7 +95,7 @@ class MainActivity : AppCompatActivity() {
 
     // This function checks the user's Answer(true/false) against the answer(true/false) in the "answer" parameter in the current Question
     private fun checkAnswer(userAnswer:Boolean) {
-        val correctAnswer = questionBank[currentIndex].answer
+        val correctAnswer = quizViewModel.currentQuestionAnswer
 
         val messageResId = if (userAnswer == correctAnswer) {
             R.string.correct_toast
