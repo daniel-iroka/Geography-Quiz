@@ -19,7 +19,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var questionNumberTextView :TextView
     private lateinit var skipTextView: TextView
 
-    // TODO : SECOND CHALLENGE... Continue trying out .....
 
     // This is a list holding all the questions being passed to the 'Question Class' as a StringResourceId and a Boolean
     private val questionBank = listOf(
@@ -93,6 +92,7 @@ class MainActivity : AppCompatActivity() {
             secondIndex = (secondIndex + 1) % questionNumberList.size
             showAllQuestions()
             showQuestionNumbers()
+
 
         }
 
@@ -178,19 +178,14 @@ class MainActivity : AppCompatActivity() {
         /** Toast's class contains - context(message location), The Resource.id and how long the message is to be displayed. **/
     }
 
-    // TODO CONTINUE THINKING.....
     /** Challenge : for all of the quiz questions, display a Toast with a percentage score
     for the quiz. Good luck! **/
     private fun calculateAnswer(userAnswer: Boolean) {
-        val correctAnswer = questionBank[initialScore].answer
-        var initialScore = 0
-        var lastQuestionIndexSize = 0
-        lastQuestionIndexSize += 1
+        val correctAnswer = questionBank[currentIndex].answer
 
         // To calculate the score
         if(userAnswer == correctAnswer) {
-            // TODO: 8/13/21 The score is not adding up. Continue...
-            initialScore = (initialScore + 5) % questionBank.size
+            initialScore = (initialScore + 5)
         } else {
             initialScore
         }
@@ -198,11 +193,10 @@ class MainActivity : AppCompatActivity() {
 
         // display total points
         if (currentIndex == 7) {
-            val toast1 = Toast.makeText(this, "your score is $initialScore", Toast.LENGTH_LONG)
+            val toast1 = Toast.makeText(this, "your score is $initialScore out of 40 points.", Toast.LENGTH_LONG)
             toast1.setGravity(Gravity.TOP, 0, 300)
             toast1.show()
         }
-
 
     }
 }
