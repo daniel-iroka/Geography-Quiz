@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var nextButton :Button
     private lateinit var questionTextView :TextView
 
+    // TODO : Continue to Saving Data Across Process Death.....
 
     // We use by lazy here because we want to use 'val' and we only want the QuizViewModel to occur
     // when we access it, which is a safe process for accessing ViewModel before the activity is created
