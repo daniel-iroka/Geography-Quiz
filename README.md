@@ -1,6 +1,6 @@
 # GeoQuiz
 
-This is the first App from the book "Android Programming with kotlin" 
+This is the first App from the book ["Android Programming with kotlin"](//https://bignerdranch.com/books/) 
 by the bignerdranchGuide.
 
 # Description
