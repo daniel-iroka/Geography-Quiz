@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 
 private const val TAG = "MainActivity"  // TAG constant refers to the source of the log message(The Activity class)
+private const val KEY_INDEX = "index"
 
 class MainActivity : AppCompatActivity() {
     private lateinit var trueButton : Button  // This are all properties that will be used to hold the Views
@@ -19,7 +20,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var nextButton :Button
     private lateinit var questionTextView :TextView
 
-    // TODO : Continue to Saving Data Across Process Death.....
+    // TODO Go though some parts of savedInstanceState Again......
 
     // We use by lazy here because we want to use 'val' and we only want the QuizViewModel to occur
     // when we access it, which is a safe process for accessing ViewModel before the activity is created
@@ -34,6 +35,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate(Bundle?) called")  // log message shown based on the current state of the Activity
         setContentView(R.layout.activity_main) // this is an auto-generated resource "id" for the layout
+
+        // This assigns the savedInstanceState to the current Index
+        val currentIndex = savedInstanceState?.getInt(KEY_INDEX, 0) ?: 0
+        quizViewModel.currentIndex = currentIndex
 
 
         trueButton = findViewById(R.id.true_button)  // This are all properties identifying the views by ids in the MainActivity.kt
@@ -60,6 +65,7 @@ class MainActivity : AppCompatActivity() {
         showAllQuestions() // This is added here to so that the first Question will initially appear in the questionsTextView
     }
 
+    // Lifecycle callbacks
     override fun onStart() {
         super.onStart()
         Log.d(TAG, "onStart() called")
@@ -73,6 +79,13 @@ class MainActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         Log.d(TAG, "onPause() called")
+    }
+
+    // overriding onSavedInstanceState() to store data outside the activity when the OS destroys to free resources
+    override fun onSaveInstanceState(savedInstanceState: Bundle) {
+        super.onSaveInstanceState(savedInstanceState)
+        Log.i(TAG, "onSavedInstanceState")
+        savedInstanceState.putInt(KEY_INDEX, quizViewModel.currentIndex)
     }
 
     override fun onStop() {
