@@ -1,14 +1,14 @@
 package com.example.geoquiz
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
-import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProviders
 
 private const val TAG = "MainActivity"  // TAG constant refers to the source of the log message(The Activity class)
@@ -18,16 +18,17 @@ class MainActivity : AppCompatActivity() {
     private lateinit var trueButton : Button  // This are all properties that will be used to hold the Views
     private lateinit var falseButton :Button
     private lateinit var nextButton :Button
+    private lateinit var cheatButton: Button
     private lateinit var questionTextView :TextView
 
-    // TODO Go though some parts of savedInstanceState Again......
+
 
     // We use by lazy here because we want to use 'val' and we only want the QuizViewModel to occur
     // when we access it, which is a safe process for accessing ViewModel before the activity is created
     private val quizViewModel: QuizViewModel by lazy {
 
         // ViewModel provider creates and returns a new instance of the QuizViewModel Activity
-        // When the devices rotates, it returns that already created instance of creating a new one
+        // When the devices rotates, it returns that already created instance instead of creating a new one all again
         ViewModelProviders.of(this).get(QuizViewModel::class.java)
     }
 
@@ -36,7 +37,8 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG, "onCreate(Bundle?) called")  // log message shown based on the current state of the Activity
         setContentView(R.layout.activity_main) // this is an auto-generated resource "id" for the layout
 
-        // This assigns the savedInstanceState to the current Index
+        // This assigns the savedInstanceState to the current Index if a value with "index"exists BUT
+        // if not it assigns it to 0
         val currentIndex = savedInstanceState?.getInt(KEY_INDEX, 0) ?: 0
         quizViewModel.currentIndex = currentIndex
 
@@ -44,24 +46,34 @@ class MainActivity : AppCompatActivity() {
         trueButton = findViewById(R.id.true_button)  // This are all properties identifying the views by ids in the MainActivity.kt
         falseButton = findViewById(R.id.false_button)
         nextButton = findViewById(R.id.next_button)
+        cheatButton = findViewById(R.id.cheat_button)
         questionTextView = findViewById(R.id.question_text_view)
 
 
         // Event listeners await an event, such as the clicking of a button
-        trueButton.setOnClickListener { view : View ->
+        trueButton.setOnClickListener {
 
             checkAnswer(true)
         }
-        falseButton.setOnClickListener { view :View ->
+        falseButton.setOnClickListener {
             checkAnswer(false)
         }
 
-        /** NEXT BUTTON **/
+        // NEXT button
         nextButton.setOnClickListener {
 
             quizViewModel.moveToNext()
             showAllQuestions()
         }
+
+        // This is the cheatButton
+        cheatButton.setOnClickListener {
+
+            // 'this' argument refers to the where the activity class can be found
+            // While the 'Class'(second argument) specifies the activity we want the class we are sending to the activity manager
+            val intent = Intent(this, CheatActivity::class.java)
+        }
+
         showAllQuestions() // This is added here to so that the first Question will initially appear in the questionsTextView
     }
 
@@ -81,7 +93,8 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG, "onPause() called")
     }
 
-    // overriding onSavedInstanceState() to store data outside the activity when the OS destroys to free resources
+    // overriding onSavedInstanceState() to store data outside the activity as (activity record) when the OS destroys to free
+    // resources
     override fun onSaveInstanceState(savedInstanceState: Bundle) {
         super.onSaveInstanceState(savedInstanceState)
         Log.i(TAG, "onSavedInstanceState")
@@ -100,6 +113,7 @@ class MainActivity : AppCompatActivity() {
 
 
     // This function will hold all the questionText
+    // TODO : Examining breakpoints in Debug editor tool window......
     private fun showAllQuestions() {
         val questionTextResId = quizViewModel.currentQuestionText
         questionTextView.setText(questionTextResId)
