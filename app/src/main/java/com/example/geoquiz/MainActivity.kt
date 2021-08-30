@@ -69,9 +69,12 @@ class MainActivity : AppCompatActivity() {
         // This is the cheatButton
         cheatButton.setOnClickListener {
 
+            // intent is an object that an activity can use to communicate with the Android OS
             // 'this' argument refers to the where the activity class can be found
             // While the 'Class'(second argument) specifies the activity we want the class we are sending to the activity manager
             val intent = Intent(this, CheatActivity::class.java)
+            startActivity(intent)
+            TODO("When I come back tomorrow, continue from communicating with intents")
         }
 
         showAllQuestions() // This is added here to so that the first Question will initially appear in the questionsTextView
