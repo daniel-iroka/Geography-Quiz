@@ -1,6 +1,5 @@
 package com.example.geoquiz
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -8,7 +7,6 @@ import android.view.Gravity
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProviders
 
 private const val TAG = "MainActivity"  // TAG constant refers to the source of the log message(The Activity class)
@@ -63,7 +61,7 @@ class MainActivity : AppCompatActivity() {
         nextButton.setOnClickListener {
 
             quizViewModel.moveToNext()
-            showAllQuestions()
+            updateQuestions()
         }
 
         // This is the cheatButton
@@ -72,12 +70,12 @@ class MainActivity : AppCompatActivity() {
             // intent is an object that an activity can use to communicate with the Android OS
             // 'this' argument refers to the where the activity class can be found
             // While the 'Class'(second argument) specifies the activity we want the class we are sending to the activity manager
-            val intent = Intent(this, CheatActivity::class.java)
+            val answerIsTrue = quizViewModel.currentQuestionAnswer
+            val intent = CheatActivity.newIntent(this@MainActivity, answerIsTrue)
             startActivity(intent)
-            TODO("When I come back tomorrow, continue from communicating with intents")
         }
 
-        showAllQuestions() // This is added here to so that the first Question will initially appear in the questionsTextView
+        updateQuestions() // This is added here to so that the first Question will initially appear in the questionsTextView
     }
 
     // Lifecycle callbacks
@@ -116,8 +114,7 @@ class MainActivity : AppCompatActivity() {
 
 
     // This function will hold all the questionText
-    // TODO : Examining breakpoints in Debug editor tool window......
-    private fun showAllQuestions() {
+    private fun updateQuestions() {
         val questionTextResId = quizViewModel.currentQuestionText
         questionTextView.setText(questionTextResId)
 
