@@ -8,6 +8,6 @@ by the bignerdranchGuide.
 This App questions the User with basic questions on basic Geography. It-
 also displays toast message to inform the user if it a question is correct or not.
 
-![Image](C:\Users\USER\Desktop\FirstPicture.png)
+![Image](FirstPicture.png)
 
 ![Image](SecondPicture.png)
