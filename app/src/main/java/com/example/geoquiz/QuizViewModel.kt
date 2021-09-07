@@ -1,6 +1,5 @@
 package com.example.geoquiz
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 
 // source of the message to be displayed in the logcat
@@ -24,6 +23,7 @@ class QuizViewModel : ViewModel() {
         Question(R.string.question_amazon, false)
     )
     var currentIndex = 0
+    var isCheater = false
 
 
     // Computed properties to return the Answer and text for the currentQuestion

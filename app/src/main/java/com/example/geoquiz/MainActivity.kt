@@ -7,10 +7,14 @@ import android.view.Gravity
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProviders
 
 private const val TAG = "MainActivity"  // TAG constant refers to the source of the log message(The Activity class)
 private const val KEY_INDEX = "index"
+
+// key for intent extra
+private const val EXTRA_ANSWER_IS_SHOWN = "com.bignerdranch.android.geoquiz.answer_shown"
 
 class MainActivity : AppCompatActivity() {
     private lateinit var trueButton : Button  // This are all properties that will be used to hold the Views
@@ -19,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var cheatButton: Button
     private lateinit var questionTextView :TextView
 
+    // todo When I am alright, I will go back and revise all what I have done...
 
 
     // We use by lazy here because we want to use 'val' and we only want the QuizViewModel to occur
@@ -28,6 +33,17 @@ class MainActivity : AppCompatActivity() {
         // ViewModel provider creates and returns a new instance of the QuizViewModel Activity
         // When the devices rotates, it returns that already created instance instead of creating a new one all again
         ViewModelProviders.of(this).get(QuizViewModel::class.java)
+    }
+
+    // This passes an activity to the Activity manager to obtain the result of the Activity
+    private val getResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+
+        // handles the result gotten from the child activity
+        if(result.resultCode == RESULT_OK) {
+            quizViewModel.isCheater = result.data?.getBooleanExtra(EXTRA_ANSWER_IS_SHOWN, false) ?: false
+
+        } // else -> Activity.RESULT_CANCELLED will automatically be called if Activity.RESULT_OK is not called
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,11 +88,12 @@ class MainActivity : AppCompatActivity() {
             // While the 'Class'(second argument) specifies the activity we want the class we are sending to the activity manager
             val answerIsTrue = quizViewModel.currentQuestionAnswer
             val intent = CheatActivity.newIntent(this@MainActivity, answerIsTrue)
-            startActivity(intent)
+            getResult.launch(intent)
         }
 
         updateQuestions() // This is added here to so that the first Question will initially appear in the questionsTextView
     }
+
 
     // Lifecycle callbacks
     override fun onStart() {
@@ -125,10 +142,12 @@ class MainActivity : AppCompatActivity() {
     private fun checkAnswer(userAnswer:Boolean) {
         val correctAnswer = quizViewModel.currentQuestionAnswer
 
-        val messageResId = if (userAnswer == correctAnswer) {
-            R.string.correct_toast
-        } else {
-            R.string.incorrect_toast
+        // This basically checks all answers against the string resources as well as
+        // if the user cheated displaying a toast message.
+        val messageResId = when {
+            quizViewModel.isCheater -> R.string.judgement_toast
+            userAnswer == correctAnswer -> R.string.correct_toast
+            else -> R.string.incorrect_toast
         }
 
         // Toasts are like pop-up messages in an android_app that will appear with a list of options or suggestions
