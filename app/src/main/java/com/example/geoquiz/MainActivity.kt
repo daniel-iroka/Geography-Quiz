@@ -13,6 +13,10 @@ import androidx.lifecycle.ViewModelProviders
 private const val TAG = "MainActivity"  // TAG constant refers to the source of the log message(The Activity class)
 private const val KEY_INDEX = "index"
 
+
+/** THIS IS THE THIRD CHALLENGE VERSION OF GEOQUIZ **/
+
+
 // key for intent extra
 private const val EXTRA_ANSWER_IS_SHOWN = "com.bignerdranch.android.geoquiz.answer_shown"
 
@@ -23,7 +27,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var cheatButton: Button
     private lateinit var questionTextView :TextView
 
-    // todo When I am alright, I will go back and revise all what I have done...
 
 
     // We use by lazy here because we want to use 'val' and we only want the QuizViewModel to occur
@@ -154,6 +157,5 @@ class MainActivity : AppCompatActivity() {
         toast.setGravity(Gravity.TOP,0, 300)
         toast.show()
 
-        /** Toast's class contains - context(message location), The Resource.id and how long the message is to be displayed. **/
     }
 }
