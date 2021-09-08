@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity() {
 
             // intent is an object that an activity can use to communicate with the Android OS
             // 'this' argument refers to the where the activity class can be found
-            // While the 'Class'(second argument) specifies the activity we want the class we are sending to the activity manager
+            // While the 'Class'(second argument) specifies the activity class we are sending to the activity manager
             val answerIsTrue = quizViewModel.currentQuestionAnswer
             val intent = CheatActivity.newIntent(this@MainActivity, answerIsTrue)
             getResult.launch(intent)
