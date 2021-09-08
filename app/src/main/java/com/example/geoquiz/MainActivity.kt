@@ -2,13 +2,15 @@ package com.example.geoquiz
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.StringRes
+
+private const val TAG = "MainActivity"  // source of the message to be displayed on the logs
 
 class MainActivity : AppCompatActivity() {
     private lateinit var trueButton : Button  // This are all properties that will be used to hold the Views
@@ -19,6 +21,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var questionNumberTextView :TextView
     private lateinit var skipTextView: TextView
 
+
+    // SECOND_CHALLENGE
 
     // This is a list holding all the questions being passed to the 'Question Class' as a StringResourceId and a Boolean
     private val questionBank = listOf(
@@ -52,6 +56,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main) // this is an auto-generated resource "id" for the layout
+        Log.d(TAG, "onCreate(Bundle?) called")
 
         trueButton = findViewById(R.id.true_button)  // This are all properties identifying the views by ids in the MainActivity.kt
         falseButton = findViewById(R.id.false_button)
@@ -143,6 +148,7 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
 
     // This function will hold all the questionText
     private fun showAllQuestions() {
