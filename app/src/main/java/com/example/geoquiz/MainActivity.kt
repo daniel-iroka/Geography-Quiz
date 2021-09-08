@@ -83,9 +83,6 @@ class MainActivity : AppCompatActivity() {
         // This is the cheatButton
         cheatButton.setOnClickListener {
 
-            // intent is an object that an activity can use to communicate with the Android OS
-            // 'this' argument refers to the where the activity class can be found
-            // While the 'Class'(second argument) specifies the activity class we are sending to the activity manager
             val answerIsTrue = quizViewModel.currentQuestionAnswer
             val intent = CheatActivity.newIntent(this@MainActivity, answerIsTrue)
             getResult.launch(intent)
@@ -149,6 +146,8 @@ class MainActivity : AppCompatActivity() {
             userAnswer == correctAnswer -> R.string.correct_toast
             else -> R.string.incorrect_toast
         }
+
+        // hahahahahhahahahaha
 
         // Toasts are like pop-up messages in an android_app that will appear with a list of options or suggestions
         val toast = Toast.makeText(this, messageResId, Toast.LENGTH_SHORT)
