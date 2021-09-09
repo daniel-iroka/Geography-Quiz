@@ -5,8 +5,8 @@ by the bignerdranchGuide.
 
 # Description
 
-This App questions the User with basic questions on basic Geography. It-
-also displays toast message to inform the user if it a question is correct or not.
+This App questions the User with basic questions on basic Geography. It
+also displays toast messages to inform the user if a question is correct or not.
 
 ![Image](FirstPicture.png)
 
