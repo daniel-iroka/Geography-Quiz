@@ -1,5 +1,8 @@
 package com.example.geoquiz
 
+import android.annotation.SuppressLint
+import android.app.ActivityOptions
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -16,6 +19,7 @@ private const val KEY_INDEX = "index"
 
 /** THIS IS THE MAIN VERSION OF GEOQUIZ **/
 
+// TODO : WHEN I COME BACK, I WILL GO TO "ADDING CODE FROM LATER APIS SAFELY"....
 
 // key for intent extra
 private const val EXTRA_ANSWER_IS_SHOWN = "com.bignerdranch.android.geoquiz.answer_shown"
@@ -47,8 +51,11 @@ class MainActivity : AppCompatActivity() {
 
         } // else -> Activity.RESULT_CANCELLED will automatically be called if Activity.RESULT_OK is not called
 
+
+
     }
 
+    @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate(Bundle?) called")  // log message shown based on the current state of the Activity
@@ -84,11 +91,22 @@ class MainActivity : AppCompatActivity() {
         }
 
         // This is the cheatButton
-        cheatButton.setOnClickListener {
+        cheatButton.setOnClickListener { view ->
 
+            // This passes the current Answer to a question to the CheatActivity
             val answerIsTrue = quizViewModel.currentQuestionAnswer
             val intent = CheatActivity.newIntent(this@MainActivity, answerIsTrue)
-            getResult.launch(intent)
+
+            // THIS CHECKS THE DEVICE VERSION OF THE DEVICE SINCE THE FUNCTION REQUIRES A MINIMUM OF API 23 AT COMPILE TIME
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                // TODO Check the Android documentation for "ActivityOptions" to implement the Latest version of it...
+                val options = ActivityOptions
+                    .makeClipRevealAnimation(view ,0 ,0 , view.width, view.height) // code from api 23
+                getResult.launch(intent)
+                startActivity(intent, options.toBundle())
+            } else {
+                getResult.launch(intent)
+            }
         }
 
         updateQuestions() // This is added here to so that the first Question will initially appear in the questionsTextView
