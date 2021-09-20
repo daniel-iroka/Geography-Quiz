@@ -76,6 +76,7 @@ class MainActivity : AppCompatActivity() {
             // this code disables the button after it is pressed
             if(trueButton.isPressed) {
                 trueButton.isEnabled = false
+                falseButton.isEnabled = false
                 previousButton.isEnabled = false
             }
         }
@@ -86,6 +87,7 @@ class MainActivity : AppCompatActivity() {
             // this disables the button after it is pressed
             if(falseButton.isPressed) {
                 falseButton.isEnabled = false
+                trueButton.isEnabled = false
                 previousButton.isEnabled = false
             }
         }
