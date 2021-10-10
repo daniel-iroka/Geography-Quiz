@@ -19,7 +19,6 @@ private const val KEY_INDEX = "index"
 
 /** THIS IS THE MAIN VERSION OF GEOQUIZ **/
 
-// TODO : WHEN I COME BACK, I WILL GO TO "ADDING CODE FROM LATER APIS SAFELY"....
 
 // key for intent extra
 private const val EXTRA_ANSWER_IS_SHOWN = "com.bignerdranch.android.geoquiz.answer_shown"
