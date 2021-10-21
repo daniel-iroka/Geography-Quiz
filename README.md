@@ -10,4 +10,5 @@ also displays toast messages to inform the user if a question is correct or not.
 
 ## ScreenShots
 
-<img src="FirstPicture.png" width=500> <img src="SecondPicture.png" width=500>
+<img src="FirstPicture.png" width=400>
+<img src="SecondPicture.png" width=400>
