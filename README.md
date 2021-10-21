@@ -10,6 +10,4 @@ also displays toast messages to inform the user if a question is correct or not.
 
 ## ScreenShots
 
-<img src="FirstPicture.png" width=500% height=600%>
-
-![Image](SecondPicture.png)
+<img src="FirstPicture.png" width=500% height=600%> ![Image](SecondPicture.png)
