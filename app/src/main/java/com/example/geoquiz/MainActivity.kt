@@ -49,9 +49,6 @@ class MainActivity : AppCompatActivity() {
             quizViewModel.isCheater = result.data?.getBooleanExtra(EXTRA_ANSWER_IS_SHOWN, false) ?: false
 
         } // else -> Activity.RESULT_CANCELLED will automatically be called if Activity.RESULT_OK is not called
-
-
-
     }
 
     @SuppressLint("RestrictedApi")
@@ -65,7 +62,6 @@ class MainActivity : AppCompatActivity() {
         val currentIndex = savedInstanceState?.getInt(KEY_INDEX, 0) ?: 0
         quizViewModel.currentIndex = currentIndex
 
-
         trueButton = findViewById(R.id.true_button)  // This are all properties identifying the views by ids in the MainActivity.kt
         falseButton = findViewById(R.id.false_button)
         nextButton = findViewById(R.id.next_button)
@@ -75,7 +71,6 @@ class MainActivity : AppCompatActivity() {
 
         // Event listeners await an event, such as the clicking of a button
         trueButton.setOnClickListener {
-
             checkAnswer(true)
         }
         falseButton.setOnClickListener {
@@ -84,7 +79,6 @@ class MainActivity : AppCompatActivity() {
 
         // NEXT button
         nextButton.setOnClickListener {
-
             quizViewModel.moveToNext()
             updateQuestions()
         }
@@ -98,7 +92,6 @@ class MainActivity : AppCompatActivity() {
 
             // THIS CHECKS THE DEVICE VERSION OF THE DEVICE SINCE THE FUNCTION REQUIRES A MINIMUM OF API 23 AT COMPILE TIME
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                // TODO Check the Android documentation for "ActivityOptions" to implement the Latest version of it...
                 val options = ActivityOptions
                     .makeClipRevealAnimation(view ,0 ,0 , view.width, view.height) // code from api 23
                 getResult.launch(intent)
@@ -107,7 +100,6 @@ class MainActivity : AppCompatActivity() {
                 getResult.launch(intent)
             }
         }
-
         updateQuestions() // This is added here to so that the first Question will initially appear in the questionsTextView
     }
 
@@ -151,7 +143,6 @@ class MainActivity : AppCompatActivity() {
     private fun updateQuestions() {
         val questionTextResId = quizViewModel.currentQuestionText
         questionTextView.setText(questionTextResId)
-
     }
 
 
@@ -166,8 +157,6 @@ class MainActivity : AppCompatActivity() {
             userAnswer == correctAnswer -> R.string.correct_toast
             else -> R.string.incorrect_toast
         }
-
-        // hahahahahhahahahaha
 
         // Toasts are like pop-up messages in an android_app that will appear with a list of options or suggestions
         val toast = Toast.makeText(this, messageResId, Toast.LENGTH_SHORT)
